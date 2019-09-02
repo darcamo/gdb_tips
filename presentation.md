@@ -253,6 +253,8 @@ b _exit
 - Use `skip` para não entrar em uma função
   - Ex: `foo(boring())` e você quer entrar em `foo`, mas não em `boring`
     - Use `skip boring` e depois `step` para entrar em foo sem entrar em boring
+- Frame filters: Veja no cppsim
+  - Veja tb: http://jefftrull.github.io/c++/gdb/python/2018/04/24/improved-backtrace.html
 
 ---
 
