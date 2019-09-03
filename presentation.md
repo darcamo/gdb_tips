@@ -169,7 +169,7 @@ Se isso não resolver, rode o programa no gdb, dê `start` e rode o comando
 # Running commands each time a breakpoint is hit
 
 gdb allow setting commands that should be run each time a specific breakpoint is
-hit. Any gdb command can be run in this way, even the run command. 
+hit. Any gdb command can be run in this way, even the run command.
 
 - Start the debugger as usual with a command similar to the one below in the shell
 
@@ -194,22 +194,22 @@ commands 2
 - The program below creates an array with 20 elements and fill it with random
   values
   - Most of the time it finishes without issues, but sometimes it crashs
-  
+
 ```c++
 #include <cstdlib>
 #include <ctime>
- 
+
 int main() {
     srand(time(NULL));
- 
+
     constexpr unsigned int arraySize = 20;
     int array[arraySize];
- 
+
     for(unsigned int i = 0; i < arraySize; i++) {
         auto denominator = (rand() % 200);
         array[i]         = 1 / denominator;
     }
- 
+
     return 0;
 }
 
@@ -275,9 +275,41 @@ run
 
 ---
 
+# Xmethods
+
+https://doc.ecoscentric.com/gnutools/doc/gdb/Xmethods-In-Python.html#Xmethods-In-Python
+
+- Xmethods are additional methods or replacements for existing methods of a C++ class
+  - useful for those cases where a method defined in C++ source code could be
+    inlined or optimized out by the compiler
+- The xmethods feature in Python is available via the concepts of an xmethod
+  matcher and an xmethod worker
+  - One has to implement a matcher and a corresponding worker for it
+  - More than one worker can be implemented, each catering to a different
+    overloaded instance of the method
+
+---
+
+# Armadillo
+
+- In order to view a vector use the code below, where `size` is the number of elements
+
+```gdb
+p *myvec.mem@size
+```
+
+- For matrices use
+
+```gdb
+p *myvec.mem@n_rows@n_cols
+```
+
+---
+
 # .gdbinit
 
 Mínima configuração útil
+
 ```gdb
 set history save on
 set print pretty on
