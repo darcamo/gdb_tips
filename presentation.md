@@ -255,6 +255,9 @@ b _exit
     - Use `skip boring` e depois `step` para entrar em foo sem entrar em boring
 - Frame filters: Veja no cppsim
   - Veja tb: http://jefftrull.github.io/c++/gdb/python/2018/04/24/improved-backtrace.html
+- `info locals`
+- `info args`
+- Use the `pgrep` command in the shell to get the pid of a process and then `gdb -p <PID>` to attach to it
 
 ---
 
