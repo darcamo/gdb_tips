@@ -306,6 +306,20 @@ p *myvec.mem@n_rows@n_cols
 
 ---
 
+# Calling functions in your code
+
+See accepted awnser
+
+https://stackoverflow.com/questions/41444181/how-to-print-armadillo-matrix-in-gdb-in-complex-cpp-project?noredirect=1&lq=1
+
+![:box moody, Dica](Grepping the demangle symbols in the binary is a good way to know if the function you're trying to call is in teh binary)
+
+```bash
+nm -C your_binary | grep print_matrix
+```
+
+---
+
 # .gdbinit
 
 Mínima configuração útil
