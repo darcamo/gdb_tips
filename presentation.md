@@ -107,6 +107,16 @@ source path_to_cppsim/gdb_helpers/gdb_armadillo_printers.py
 
 ---
 
+# Python Pretty Printers
+
+- cppsim has pretty printers for some classes in the `gdb_helpers` folder in its
+  repository.
+
+- Pretty printers for armadillo types are available in 
+  [this repository](https://github.com/darcamo/gdb_armadillo_helpers).
+
+---
+
 # Auto-load Pretty Printers
 
 In the cppsim project root folder, there is a .gdbinit file that automatically
@@ -250,6 +260,7 @@ b _exit
 
 - Veja watch points
 - `whatis <variável>` diz o tipo da variável
+- `ptype <variável>` mostra uma descrição do tipo da variável
 - Use `skip` para não entrar em uma função
   - Ex: `foo(boring())` e você quer entrar em `foo`, mas não em `boring`
     - Use `skip boring` e depois `step` para entrar em foo sem entrar em boring
@@ -278,22 +289,56 @@ run
 
 ---
 
-# Xmethods
+# Exibindo uma expressão sempre que parar
 
-https://doc.ecoscentric.com/gnutools/doc/gdb/Xmethods-In-Python.html#Xmethods-In-Python
+ftp://ftp.gnu.org/old-gnu/Manuals/gdb/html_chapter/gdb_toc.html#TOC57
 
-- Xmethods are additional methods or replacements for existing methods of a C++ class
-  - useful for those cases where a method defined in C++ source code could be
-    inlined or optimized out by the compiler
-- The xmethods feature in Python is available via the concepts of an xmethod
-  matcher and an xmethod worker
-  - One has to implement a matcher and a corresponding worker for it
-  - More than one worker can be implemented, each catering to a different
-    overloaded instance of the method
+- `display expr`
+- `info display`
+- `delete display <NUM>`
+- `disable/enable display <NUM>`
 
 ---
 
-# Armadillo
+# Convenience variables
+
+- GDB provides convenience variables that you can use within GDB to hold on to a value and refer to it later.
+- Convenience variables are prefixed with `$`
+  - Any name preceded by `$` can be used for a convenience variable, unless it
+    is one of the predefined machine-specific register names
+  - Value history references, in contrast, are numbers preceded by `$`
+- You can save a value in a convenience variable with an assignment expression
+  `set $foo = *object_ptr`
+- `show convenience`
+
+---
+
+# Artificial Arrays
+
+- You can print the contents of array with
+
+`p *array@len`
+
+- It works for multiple dimensions
+
+`p *array@num_rows@num_cols`
+
+- If you have an array os structures and you are interested in a single field
+  use a convenience variable as a counter in an expression that prints the
+  desired field and and then repeat that expression via <bkd>RET</kbd>
+
+```gdb
+set $i = 0
+p mystruct_array[$i++]->some_field
+RET
+RET
+RET
+```
+
+---
+
+# Artificial Arrays
+## Using for Armadillo types
 
 - In order to view a vector use the code below, where `size` is the number of elements
 
@@ -306,6 +351,22 @@ p *myvec.mem@size
 ```gdb
 p *myvec.mem@n_rows@n_cols
 ```
+
+
+---
+
+# Xmethods
+
+https://doc.ecoscentric.com/gnutools/doc/gdb/Xmethods-In-Python.html#Xmethods-In-Python
+
+- Xmethods are additional methods or replacements for existing methods of a C++ class
+  - useful for those cases where a method defined in C++ source code could be
+    inlined or optimized out by the compiler
+- The xmethods feature in Python is available via the concepts of an xmethod
+  matcher and an xmethod worker
+  - One has to implement a matcher and a corresponding worker for it
+  - More than one worker can be implemented, each catering to a different
+    overloaded instance of the method
 
 ---
 
