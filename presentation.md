@@ -1,3 +1,4 @@
+
 name: inverse
 layout: true
 class: center, middle, inverse, animated, jackInTheBox
@@ -312,6 +313,8 @@ layout: true
 
 `p *array@num_rows@num_cols`
 
+---
+
 - Se você tiver um array de estruturas e quiser ver apenas os valores de um
   campo, use uma variável de conveniência como contador em uma expressão que
   imprime o compo desejado e então repita a operação via <bkd>RET</kbd>
@@ -322,6 +325,18 @@ p mystruct_array[$i++]->some_field
 RET
 RET
 RET
+```
+
+--
+
+- Também é possível usar a variável de conveniência dentro de um loop para
+  imprimir apenas um campo do array
+
+```gdb
+set $i = 0
+while ($i<array_length)
+    p mystruct_array[$i++]->some_field
+end
 ```
 
 ---
