@@ -446,8 +446,10 @@ source /path_onde_clonou/gdb_armadillo_helpers/gdb_helpers/gdb_armadillo_xmethod
 ```
 
 ---
-
+layout: true
 # Python Interativo
+
+---
 
 - O comando `pi` (ou `python-interactive`) do gdb roda o python de maneira
   iterativa
@@ -456,7 +458,7 @@ source /path_onde_clonou/gdb_armadillo_helpers/gdb_helpers/gdb_armadillo_xmethod
   `gdb_armadillo_helpers` para ter a função `get_arrat` disponível no python do gdb
 
 ```gdb
-source /path_onde_clonou/gdb_armadillo_helpers/gdb_helpers/gdb_armadillo_xmethods.py
+source /path_onde_clonou/gdb_armadillo_helpers/gdb_helpers/gdb_armadillo_to_numpy.py
 ```
 - Agora rode o python iterativo com o comando `pi`
 - Supondo que você possui um `arma::cx_mat` de nome `m` você pode criar um numpy
@@ -468,6 +470,42 @@ source /path_onde_clonou/gdb_armadillo_helpers/gdb_helpers/gdb_armadillo_xmethod
 
 ---
 
+## Exemplo útil: Computar posições dos elementos de uma URA
+
+  - Crie um arquivo `.gdbinit` na pasta contento o executável (chamado de `tests`)
+  ```gdb
+  file tests
+  set args "[Antenna]"
+  start
+  # Linha 311 é logo após a variável 'positions' ser setada
+  b test_URA.cpp:311
+  commands 2
+    source plot_positions.py
+  end
+  run
+  ```
+  - Na mesma pasta crie o arquivo `plot_positions.py` com o conteúdo abaixo
+  ```python
+  from matplotlib import pyplot as plt
+  p = get_array(gdb.parse_and_eval("positions")) # positions é a variável no C++
+  plt.plot(p[1], p[2], "*")
+  for i in range(p.shape[1]):
+      plt.text(p[1,i], p[2,i], i)
+  plt.show()
+  ```
+
+---
+
+## Exemplo útil: Computar posições dos elementos de uma URA
+
+- Agora basta rodar `gdb` e o programa vai parar na linha 311 e plotar as
+  posições dos elementos de antenna
+
+.center[
+<img src="figs/gdb_matplotlib.png" width="800px">]
+
+---
+layout: false
 # IPython Interativo
 
 - O python interativo do gdb funciona bem, mas não chega perto de um IPython
