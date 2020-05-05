@@ -75,6 +75,7 @@ finish, fin
 up, u
 down, d
 break, b
+rbreak, rb
 continue, c
 info <break/threads/locals/args/etc>
 help, h
@@ -83,6 +84,48 @@ help, h
 ![:box moody, Nota](Muitos outros comandos estão disponíveis, mas não são o foco dessa apresentação)
 
 ![:box happy, Dica](Você não precisa digitar o comando completo. Apenas uma ou duas letras são suficientes como `b` para break, `c` para continue, etc)
+
+---
+
+# Criando breakpoints
+
+É possível adicionar breakpoints com
+
+```gdb
+b filename.cpp:line_number
+b function_name
+```
+
+No caso de templates, o nome da função inclui o tipo do template. No caso da função abaixo
+
+```c++
+template <typename T>
+inline T doubleInput(const T& x) {
+    return 2 * x;
+}
+```
+é necessário `b doubleInput<int>`, ou `b doubleInput<double>`, por exemplo. Note que ele vai parar apenas na instância específica do template.
+
+Caso use `b filename.cpp:line_number` em um template o gdb cria um breakpoint
+com múltiplas localizações (uma para cada instância do template)
+
+---
+
+# Criando breakpoints
+
+Outra opção é usar o comando `rbreak` para criar um breakpoint passando uma expressão regular
+
+Ainda no exemplo com template
+
+```c++
+template <typename T>
+inline T doubleInput(const T& x) {
+    return 2 * x;
+}
+```
+você poderia usar `rbreak doubleInput*` e o gdb criaria um breakpoint em todas as instâncias do template 
+
+Outra opção interessante é `rbreak filename.cpp:.*` para adicionar um breakpoint em todas as funções de um arquivo
 
 ---
 
